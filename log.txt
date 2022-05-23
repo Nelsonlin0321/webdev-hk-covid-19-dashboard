@@ -1,0 +1,9 @@
+[2022-04-21 14:26:14 +0000] [978] [INFO] Starting gunicorn 20.0.4
+[2022-04-21 14:26:14 +0000] [978] [INFO] Listening at: http://127.0.0.1:8000 (978)
+[2022-04-21 14:26:14 +0000] [978] [INFO] Using worker: sync
+[2022-04-21 14:26:14 +0000] [980] [INFO] Booting worker with pid: 980
+[2022-04-21 14:46:45 +0000] [1033] [INFO] Booting worker with pid: 1033
+[2022-04-21 14:46:45 +0000] [978] [INFO] Handling signal: hup
+[2022-04-21 14:46:45 +0000] [978] [INFO] Hang up: Master
+[2022-04-21 14:46:45 +0000] [1034] [INFO] Booting worker with pid: 1034
+[2022-04-21 14:46:45 +0000] [1033] [INFO] Worker exiting (pid: 1033)

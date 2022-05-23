@@ -1,0 +1,458 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta charset="utf-8"> 
+    <title></title> 
+    <script type="text/javascript" src='./../static/js/echarts.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel = "stylesheet" type = "text/css" href="./../static/bootstrap/css/bootstrap.css">
+
+
+    <style type="text/css">
+        body {background-color: rgb(237, 242, 249);}
+
+        .content {
+            width: 80%;
+            display: block;
+            margin: 0 auto;
+            padding-top: 30px;
+        }
+
+        #line-chart{
+            width: 100%;height: 400px;position: relative;left: 0;top: 0;right: 0;bottom: 0;margin: auto;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark bg-dark">
+        
+        <div class="container-fluid" style="float: left;">
+            <a class="navbar-brand" href="#">
+                <img src="./../static/images/hk-icon.png" alt="" width="60" height="60" class="d-inline-block">
+                2019冠狀病毒病-香港最新情況
+            </a>
+
+        </div>
+
+    </nav>
+
+    <div class = "content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- 確診总数 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">確診总数</h5>
+
+                                    <h3 class="my-2 py-1" id="Confirmed2"></h3>
+                                    <!-- <p class="mb-0 text-muted">
+                                        <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> 3.27% </span>
+                                    </p>  -->
+                                </div>
+                                <!-- 陽性檢測個案总数 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">陽性檢測個案总数</h5>
+
+                                    <h3 class="my-2 py-1" id = "Confirmed" ></h3>
+
+                                    <p class="mb-0 text-muted">
+                                        <span class="text-success me-2" id = "Confirmed_Delta_Percentage"></span>
+                                    </p>
+
+                                </div>
+                                <!-- 新增陽性檢測個案 -->
+                                <div class="col-md-2" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">新增陽性檢測個案</h5>
+
+                                    <h3 class="my-2 py-1" id = "Confirmed_Delta"></h3>
+
+                                    <p class="mb-0 text-muted">
+                                        <span class="text-success me-2">
+
+                                            本地:
+                                            <span style="padding-right: 5px;" id =  "Local_Case2">
+                                                
+                                            </span>
+
+                                            输入:
+
+                                            <span id = "Import_Case2">
+                                                
+                                            </span>
+
+                                        
+                                        </span>
+                                    </p> 
+                                </div>
+                                <!-- 無症狀感染總數 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">無症狀感染總數</h5>
+
+                                    <h3 class="my-2 py-1" id  = "Asymptomatic"></h3>
+
+                                </div>
+                                <!-- 住院總數 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">住院總數</h5>
+
+                                    <h3 class="my-2 py-1" id = "Hospitalised"></h3>
+
+                                    <p class="mb-0 text-muted">
+                                        <span class="text-success me-2" id = "Hospitalized_Delta_Percentage"></span>
+                                    </p> 
+                                </div>
+                                <!-- 危殆人數 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">危殆人數</h5>
+
+                                    <h3 class="my-2 py-1" id = "Critical"></h3>
+
+                                    <p class="mb-0 text-muted">
+                                        <span class="text-success me-2" id = "Critical_Delta_Percentage"></span>
+                                    </p> 
+                                </div>
+                                <!-- 死亡人數 -->
+                                <div class="col">
+                                    <h5 class="text-muted fw-normal mt-0 text-truncate" title="Campaign Sent">死亡人數</h5>
+
+                                    <h3 class="my-2 py-1" id = "Death"> </h3>
+
+                                    <p class="mb-0 text-muted">
+                                        <span class="text-success me-2" id = "Death_Delta_Percentage"></span>
+                                    </p> 
+                                </div>
+
+                                
+
+
+
+                            </div>
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card -->
+                </div> <!-- end col -->
+            </div>
+
+            <div class="row" style="padding-top: 10px;">
+                <div class = "col">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div id = "line-chart">
+                                Hello
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+    </div>
+</body>
+
+
+
+<script type="text/javascript">
+    // get key number
+    var g_numDataUrl = 'https://chp-dashboard.geodata.gov.hk/covid-19/data/keynum.json';
+    var g_autoUpdateKeyFigures = true;
+    var g_autoUpdateInterval = 5 * 60;
+    const formatAsPercentage = x => `${Math.round(x * 100)}%`
+
+
+    function getDeltaText(curr, pre) {
+
+        var delta = curr - pre;
+
+        var percentage = delta / (pre-delta);
+
+        if (delta < 0) return '▼ ' + delta.toLocaleString('en') + " (" + (formatAsPercentage(percentage) * -1) + ")";
+
+        if (delta > 0) return '▲ ' + delta.toLocaleString('en') + " (" + formatAsPercentage(percentage) + ")";
+
+        if (delta == 0) return '- ' + delta.toLocaleString('en') + " (" + formatAsPercentage(percentage) + ")";
+        
+    }
+
+
+    function getDeltaPercentage(delta, total) {
+
+        var percentage = delta / (total-delta);
+
+        if (delta < 0) return '▼ ' + delta.toLocaleString('en') + " (" + (formatAsPercentage(percentage) * -1) + ")";
+
+        if (delta > 0) return '▲ ' + delta.toLocaleString('en') + " (" + formatAsPercentage(percentage) + ")";
+
+        if (delta == 0) return '- ' + delta.toLocaleString('en') + " (" + formatAsPercentage(percentage) + ")";
+    }
+
+
+    function updateKeyNums() {
+                $.ajax({
+                    dataType: "json",
+                    url: g_numDataUrl,
+                    cache: false
+                }).done(function( data ) {
+                    // console.log('num data', data);
+                    $('#Confirmed2').text(data.Confirmed2.toLocaleString('en'));
+                    $('#Confirmed').text(data.Confirmed.toLocaleString('en'));
+
+                    $('#Confirmed_Delta_Percentage').text(getDeltaPercentage(data.Confirmed_Delta, data.Confirmed));
+                    $('#Confirmed2').text(data.Confirmed2.toLocaleString('en'));
+
+                    $('#Confirmed_Delta').text(data.Confirmed_Delta.toLocaleString('en'));
+                    $('#Local_Case2').text(data.Local_Case2.toLocaleString('en'));
+                    $('#Import_Case2').text(data.Import_Case2.toLocaleString('en'));
+
+                    $('#Asymptomatic').text(data.Asymptomatic.toLocaleString('en'));
+
+                    $('#Hospitalised').text(data.Hospitalised.toLocaleString('en'));
+                    $('#Hospitalized_Delta_Percentage').text(getDeltaText(data.Hospitalised, data.P_Hospitalised));
+
+                    $('#Critical').text(data.Critical.toLocaleString('en'));
+                    $('#Critical_Delta_Percentage').text(getDeltaText(data.Critical, data.P_Critical));        
+
+
+                    $('#Death').text(data.Death.toLocaleString('en'));
+                    $('#Death_Delta_Percentage').text(getDeltaText(data.Death, data.P_Death));        
+
+                })
+                .fail(function( jqXHR, textStatus, errorThrown ) {
+                    console.error('Error getting latest key figures.')
+                });
+            }
+    
+    $(function () {
+
+        updateKeyNums();
+        
+    })
+
+</script>
+
+
+
+<script type="text/javascript">
+
+    data_url = "./../static/data/confirmed_death_data/latest_data.json"
+
+    function get_confirmed_death_data() {
+
+        return $.ajax({
+                    dataType: "json",
+                    url: data_url,
+                    cache: false
+                })
+            }
+    
+    latest_data = get_confirmed_death_data();
+
+    latest_data = latest_data.responseJSON;
+
+        
+    var chartDom = document.getElementById('line-chart');
+
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+    title: {
+        text: '確診與死亡人數',
+        left: 'center'
+    },
+    grid: {
+        bottom: 80
+    },
+    toolbox: {
+        feature: {
+        dataZoom: {
+            yAxisIndex: 'none'
+        },
+        restore: {},
+        saveAsImage: {}
+        }
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+        type: 'cross',
+        animation: false,
+        label: {
+            backgroundColor: '#505765'
+        }
+        }
+    },
+    legend: {
+        data: ['確診人數', '死亡人數'],
+        left: 10
+    },
+    dataZoom: [
+        {
+        show: true,
+        realtime: true,
+        start: 30,
+        end: 100
+        },
+        {
+        type: 'inside',
+        realtime: true,
+        start: 65,
+        end: 85
+        }
+    ],
+    xAxis: [
+        {
+        type: 'category',
+        boundaryGap: false,
+        axisLine: { onZero: false },
+        // prettier-ignore
+        data: latest_data.Date.map(function (str) {
+                    return str.replace(' ', '\n');
+                })
+        }
+    ],
+    yAxis: [
+        {
+        name: '確診人數',
+        type: 'value'
+        },
+        {
+        name: '死亡人數',
+        nameLocation: 'start',
+        alignTicks: true,
+        type: 'value',
+        inverse: true
+        }
+    ],
+    series: [
+        {
+        name: '確診人數',
+        type: 'line',
+        areaStyle: {},
+        lineStyle: {
+            width: 1
+        },
+        emphasis: {
+            focus: 'series'
+        },
+        markArea: {
+            silent: true,
+            itemStyle: {
+            opacity: 0.3
+            },
+            data: [
+            [
+                {
+                xAxis: '2009/9/12\n7:00'
+                },
+                {
+                xAxis: '2009/9/22\n7:00'
+                }
+            ]
+            ]
+        },
+        // prettier-ignore
+        data: [
+        120,
+            81,
+            142,
+            195,
+            351,
+            343,
+            614,
+            625,
+            1161,
+            986,
+            1325,
+            1514,
+            1347,
+            2071,
+            1619,
+            4285,
+            6116,
+            3629,
+            6063,
+            6067,
+            7533,
+            6208,
+            8674,
+            8798,
+            10010,
+            17063,
+            26026
+                ]
+        },
+        {
+        name: '死亡人數',
+        type: 'line',
+        yAxisIndex: 1,
+        areaStyle: {},
+        lineStyle: {
+            width: 1
+        },
+        emphasis: {
+            focus: 'series'
+        },
+        markArea: {
+            silent: true,
+            itemStyle: {
+            opacity: 0.3
+            },
+            data: [
+            [
+                {
+                xAxis: '2009/9/10\n7:00'
+                },
+                {
+                xAxis: '2009/9/20\n7:00'
+                }
+            ]
+            ]
+        },
+        // prettier-ignore
+        data: [
+        0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    2,
+    1,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    24,
+    0,
+    0,
+    15,
+    13,
+    32,
+    24,
+    50,
+    47,
+    66,
+    83
+                ]
+        }
+    ]
+    };
+
+    option && myChart.setOption(option);
+
+
+</script>
+
+</html>

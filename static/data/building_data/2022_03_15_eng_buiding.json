@@ -1,0 +1,43 @@
+{
+    "District": [
+        "Southern",
+        "Islands",
+        "Tai Po",
+        "Wong Tai Sin",
+        "Tsuen Wan",
+        "North",
+        "Sha Tin",
+        "Kwai Tsing",
+        "Sai Kung",
+        "Tuen Mun",
+        "Central & Western",
+        "Yuen Long",
+        "Yau Tsim Mong",
+        "Kowloon City",
+        "Eastern",
+        "Wan Chai",
+        "Kwun Tong",
+        "Sham Shui Po"
+    ],
+    "Count": [
+        107,
+        120,
+        128,
+        153,
+        174,
+        175,
+        177,
+        178,
+        178,
+        202,
+        217,
+        219,
+        234,
+        234,
+        239,
+        255,
+        307,
+        345
+    ],
+    "total": 3642
+}

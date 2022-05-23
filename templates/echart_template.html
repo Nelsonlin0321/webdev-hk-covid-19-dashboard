@@ -1,0 +1,90 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta charset="utf-8"> 
+    <title></title> 
+    <script type="text/javascript" src='./../static/js/echarts.min.js'></script>
+    <style type="text/css">
+        
+	.box{width: 600px;height: 600px;border: 1px solid black;position: absolute;left: 0;top: 0;right: 0;bottom: 0;margin: auto;}
+
+
+    </style>
+</head>
+<body>
+	<div class='box'></div>
+</body>
+<script type="text/javascript">
+	//分四步
+	let $ = document.querySelector.bind(document);
+
+	//1.获取容器
+	let oBox = $('.box');//document.querySelector('.box');
+
+		console.log(oBox);
+
+	//2.设置参数
+	let option = {
+		title:{
+			text:'Leo和Sky和Busy的工资对比',
+			subtext:'2018年度（单位：元）',
+			x:'center',
+			textStyle:{
+				fontSize:'20',
+				color:'black'
+			}
+
+		},
+		legend:{
+			data:['Leo','Sky','Busy'],
+			right:0,
+			top:'50%',
+			orient:'vertical'
+		},
+		xAxis:[
+			{
+				type:'category',
+				data:['1月','2月','3月']
+			}
+		],
+		yAxis:[
+			{
+				type:'value'
+			}
+		],
+		series:[
+			{
+				name:'Leo',
+				type:'line',
+				data:[8000,8230,8450]
+			},
+			{
+				name:'Sky',
+				type:'line',
+				data:[5000,7000,9000]
+			},
+			{
+				name:'Busy',
+				type:'line',
+				data:[3000,8000,5000]
+			}
+
+		]
+
+	};
+
+	//3.创建 
+	let chart = echarts.init(oBox);
+
+	//4.设置参数
+	chart.setOption(option);
+
+
+
+
+	//echarts.init($('.box')).setOption({})
+
+
+
+</script>
+</html>

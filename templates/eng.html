@@ -1,0 +1,1096 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta charset="utf-8"> 
+    <title>2019冠狀病毒病-香港最新情況</title>
+    <link rel="icon" type="image/x-icon" href="./../static/images/hk-favicon-circle.png"> 
+    <script type="text/javascript" src='./../static/js/echarts.js'></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel = "stylesheet" type = "text/css" href="./../static/bootstrap/css/bootstrap.css">
+
+
+    <style type="text/css">
+        body {background-color: rgb(237, 242, 249);}
+
+        .content {
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+            padding-top: 30px;
+        }
+
+        #line-chart{
+            width: 100%;height: 400px;position: relative;left: 0;top: 0;right: 0;bottom: 0;margin: auto;
+        }
+
+        #vaccine-chart {
+            width: 90%;height: 400px;
+        }
+
+        #map-chart {
+            width: 100%;height: 700px;position: relative;left: 0;top: 0;right: 0;bottom: 0;margin: auto;background-color: aliceblue;
+        }
+
+        #region-bar-chart {
+            width: 95%;height: 700px;
+        }
+
+        #million-death-rate {
+            width: 98%;height: 350px;
+        }
+
+        #ederly-death-analysis {
+            width: 90%;height: 350px;
+
+        }
+
+        #death-percentage-analysis {
+            width: 90%;height: 384px;
+        }
+        .underline-figure {
+            color: brown;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark bg-dark">
+        
+        <div class="container-fluid" style="float: left;">
+            <a class="navbar-brand">
+                <img src="./../static/images/hk-icon.png" alt="" width="60" height="60" class="d-inline-block">
+                Latest Situation of Coronavirus Disease (COVID-19) in Hong Kong
+            </a>
+            
+            <a class="navbar-brand" href="./zh">
+                中文
+            </a>
+
+        </div>
+
+    </nav>
+
+    <div class = "content">
+        <div class="container-fluid">
+
+            <!-- figure 1 -->
+            <div class="row">
+                <div class="col">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div class="row">
+
+                                <!--陽性总数 -->
+                                
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted fw-normal mt-0 text-truncate">The total number of positive cases</h5>
+
+                                    <h3 id="total_positive"></h3>
+                                    
+                                    <div class="underline-figure" id = "detal_total_positive_percentage" style="color: brown;"></div>
+                                    
+                                    <span class="text-muted" style="text-align: center;font-size: 10px;"> * Positive cases include positive rapid antigen and nucleic acid test.</span>
+
+                                </div>
+
+                                <!-- 核酸檢測陽性總數 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted">Positive Nucleic Acid Test cases </h5>
+
+                                    <h3 id = "total_nucleic_acid" ></h3>
+
+                                    <div class="underline-figure" id = "detal_nucleid_acid_percentage" style="color: brown;"></div>
+
+                                </div>
+                                <!-- 新增陽性檢測個案 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted">Positive Rapid Antigen Test case </h5>
+
+                                    <h3 id = "total_rapid_test"></h3>
+                                    
+                                    <div class="underline-figure" id = "detal_rapid_test_percentage" style="color: brown;"></div>
+                                    
+                                </div>
+
+                                <div class="col">
+                                    <h5 class="text-muted">As of Time</h5>
+
+                                    <h3 id="updated_date"></h3>
+                                </div>
+
+                            </div>
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card -->
+                </div> <!-- end col -->
+            </div>
+            
+            <!-- figure 2 -->
+            <div class="row" style="padding-top: 10px;">
+                <div class="col">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                                <div class="row">
+                                <!-- 無症狀感染總數 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted">Asymptomatic</h5>
+                                    <h3 id  = "asymptomatic"></h3>
+                                </div>
+                                <!-- 住院總數 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted">Hospitalized</h5>
+
+                                    <h3 id = "hospitalised"></h3>
+
+                                    <p class="text-muted">
+                                        <span class="underline-figure" id = "hospitalized_delta_percentage"></span>
+                                    </p> 
+                                </div>
+                                <!-- 危殆人數 -->
+                                <div class="col" style="border-right: dotted;border-color:rgb(237, 242, 249)">
+                                    <h5 class="text-muted">In ICU</h5>
+
+                                    <h3 id = "critical"></h3>
+
+                                    <p class="text-muted">
+                                        <span class="underline-figure" id = "critical_delta_percentage"></span>
+                                    </p>
+
+                                </div>
+                                <!-- 死亡人數 -->
+                                <div class="col">
+                                    <h5 class="text-muted">Death</h5>
+
+                                    <h3 id = "death"> </h3>
+
+                                    <p class="text-muted">
+                                        <span class="underline-figure" id = "death_delta_percentage"></span>
+                                    </p> 
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 10px;">
+                <!-- confirmed death line chart -->
+                <div class = "col-8" >
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div id = "line-chart">
+                                line-chart
+                            </div>
+                            <span class="text-muted" style="text-align: center;font-size: 10px;"> * Death is generally delayed by one more day, subject to the announcement by the Department of Health </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- vaccination chart -->
+                <div class = "col">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div id = "vaccine-chart">
+                                vaccine-chart
+                            </div>
+                            <span class="text-muted" style="text-align: center;font-size: 10px;"> * Data comes from </span>
+                            <a style="text-align: center;font-size: 10px;" href="https://chp-dashboard.geodata.gov.hk/covid-19/zh.html">the Department of Health</a>
+                            <span class="text-muted" style="text-align: center;font-size: 10px;">.</span>
+
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Title -->
+            <div class="row" style="padding-top: 10px;">
+                <div class = "col-12">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div id = "chart-title">
+                                <h4 style="text-align: center;font-size: 18px;font-weight: bold;">
+                                    Death Cases Analysis
+                                </h4>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 10px;">
+                <!-- million-death-rate -->
+                <div class = "col-6">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div id = "million-death-rate">
+                            </div>
+                            <h4 style="font-size: 18px;font-weight: bold;">Trends in deaths per million</h4>
+                            <iframe src="https://www.bloomberg.com/toaster/v2/charts/9aebc5c023484dafa483968e589f0164.html" data-toaster-id="384624139" frameborder="0" scrolling="no" style="height:350px; width: 100%;"></iframe>
+                            <span class="text-muted" style="text-align: center;font-size: 10px;"> * Data comes from  </span>
+                            <a target="_blank" style = "font-size: 10px" href="https://www.bloomberg.com/news/articles/2022-03-01/hong-kong-virus-deaths-among-world-s-worst-on-at-risk-elderly">Johns Hopkins University and Bloomberg</a>
+                            <span class="text-muted" style="text-align: center;font-size: 10px;">. Deaths: The average number of deaths over the past 10 days.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class = "col-6">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div id = "ederly-death-analysis">
+                            </div>
+                            <div id = "death-percentage-analysis">
+                            </div>
+                            <span class="text-muted" style="text-align: center;font-size: 10px;"> * Data comes from  </span>
+                            <a target="_blank" style = "font-size: 10px" href="https://news.tvb.com/local/621df5e7c652e9cb1e9a02f5/本港增逾3.2萬宗個案-當局促市民勿在公眾地方做快速檢測">TVB News</a>
+                            <span class="text-muted" style="text-align: center;font-size: 10px;">. </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" style="padding-top: 10px;">
+                <div class = "col-12">
+                    <div class="card" style="border-radius: 10px;">
+                        <div class="card-body">
+                            <div id = "region-bar-chart">
+                                region-bar-chart
+                            </div>
+                            <span class="text-muted" style="text-align: center;font-size: 10px;"> * Data may not be updated due to not updated data from HK Department of Heath </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" style="padding-top: 10px;padding-bottom: 30px;">
+                <div class = "col-12">
+                    <div class="card" style="border-radius: 10px; background-color: black;">
+                        <div class="card-body" style="background-color: black;" >
+                            <div id = "map-chart" style="background-color: black;">
+                                <h3 style="text-align: center;color: white;background-color: black;">
+                                    Hong Kong Epidemic Map
+                                </h3>
+                                <div style="height: 650px;">
+                                    <iframe id="lic-dashboard-iframe" width="100%" height="100%" src="https://chp-dashboard.geodata.gov.hk/covid-19/apps2/Tab2_Desktop_Eng_20220208/"></iframe>
+                                </div>
+                            </div>
+                            <span class="text-muted" style="text-align: center;font-size: 10px;"> * Data may not be updated due to not updated data from HK Department of Heath </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <footer class="footer" style="background-color: rgb(230, 234, 240);height: 50px;">
+        <div class="container">
+            <span class="text-muted" style="text-align: center;"> Data Dashboard keeps synchronized with Data Source from </span>
+            <a href="https://data.gov.hk/en-datasets">HK Department of Heath & Data.GOV.HK</a>.
+
+          <span class="text-muted" style="text-align: center;">Some data is manually prepared due to limited data provided by the Health Department. The web is developed and maintained unofficially.</span>
+          <span class="text-muted">Thank you for visiting. For technology sharing and cooperation, please contact: nelsonlin0321@outlook.com </span>
+        </div>
+    </footer>
+
+</body>
+
+<!-- key figure -->
+<script type="text/javascript">
+    // get key number
+    // var g_numDataUrl = 'https://chp-dashboard.geodata.gov.hk/covid-19/data/keynum.json';
+    var g_numDataUrl = './../static/data/key_nums_data/latest_key_nums.json';
+    var g_autoUpdateKeyFigures = true;
+    var g_autoUpdateInterval = 5 * 60;
+    const formatAsPercentage = x => `${Math.round(x * 100)}%`
+
+
+    function getDeltaText(curr, pre) {
+
+        var delta = curr - pre;
+
+        var percentage = delta / (pre);
+
+        if (delta < 0) return '▼ ' + delta.toLocaleString('en') + " (" + (formatAsPercentage(percentage)) + ")";
+
+        if (delta > 0) return '▲ ' + delta.toLocaleString('en') + " (" + formatAsPercentage(percentage) + ")";
+
+        if (delta == 0) return '- ' + delta.toLocaleString('en') + " (" + formatAsPercentage(percentage) + ")";
+        
+    }
+
+
+    function getDeltaPercentage(delta, total) {
+
+        var percentage = delta / (total-delta);
+
+        if (delta < 0) return '▼ ' + delta.toLocaleString('en') + " (" + (formatAsPercentage(percentage) * -1) + ")";
+
+        if (delta > 0) return '▲ ' + delta.toLocaleString('en') + " (" + formatAsPercentage(percentage) + ")";
+
+        if (delta == 0) return '- ' + delta.toLocaleString('en') + " (" + formatAsPercentage(percentage) + ")";
+    }
+
+
+    function updateKeyNums() {
+                $.ajax({
+                    dataType: "json",
+                    url: g_numDataUrl,
+                    cache: false
+                }).done(function( data ) {
+                    // console.log('num data', data);
+
+                    var detal_nucleic_acid = data.Confirmed_Delta;
+                    var total_nucleic_acid = data.Confirmed;
+
+                    var total_rapid_test = data.RAT_Positive;
+                    var detal_rapid_test = data.RAT_Positive_Delta;
+                    var detal_total = detal_nucleic_acid + detal_rapid_test;
+
+                    var total_positive = total_rapid_test + total_nucleic_acid;
+
+                    var detal_local = data.Local_Case2;
+                    var detal_import = data.Import_Case2;
+
+                    $('#total_positive').text(total_positive.toLocaleString('en'));
+                    $('#detal_total_positive_percentage').text(getDeltaPercentage(detal_total,total_positive));
+                    
+                    $('#detal_nucleic_acid').text(detal_nucleic_acid.toLocaleString('en'));
+                    
+                    $('#detal_local').text(detal_local.toLocaleString('en'));
+                    $('#detal_import').text(detal_import.toLocaleString('en'));
+
+                    $('#total_nucleic_acid').text(total_nucleic_acid.toLocaleString('en'));
+                    $('#detal_nucleid_acid_percentage').text(getDeltaPercentage(detal_nucleic_acid,total_nucleic_acid));
+
+                    $('#total_rapid_test').text(total_rapid_test.toLocaleString('en'));
+                    $('#detal_rapid_test_percentage').text(getDeltaPercentage(detal_rapid_test,total_rapid_test));
+                    
+
+                    $('#asymptomatic').text(data.Asymptomatic.toLocaleString('en'));
+
+                    $('#hospitalised').text(data.Hospitalised.toLocaleString('en'));
+                    $('#hospitalized_delta_percentage').text(getDeltaText(data.Hospitalised, data.P_Hospitalised));
+
+                    $('#critical').text(data.Critical.toLocaleString('en'));
+                    $('#critical_delta_percentage').text(getDeltaText(data.Critical, data.P_Critical));        
+
+
+                    $('#death').text(data.Death.toLocaleString('en'));
+                    $('#death_delta_percentage').text(getDeltaText(data.Death, data.P_Death));
+
+                    const dateObject = new Date(data.As_of_date);
+
+                    $('#updated_date').text(dateObject.toLocaleString());
+                    
+                    
+
+                })
+                .fail(function( jqXHR, textStatus, errorThrown ) {
+                    console.error('Error getting latest key figures.')
+                });
+            }
+    
+    $(function () {
+
+        updateKeyNums();
+        
+    })
+
+</script>
+
+<!-- confirmed death line chart -->
+<script type="text/javascript">
+
+    data_url = "./../static/data/confirmed_death_data/latest_data.json"
+
+    function get_refreshed_data() {
+
+        $.ajax({
+                    dataType: "json",
+                    url: data_url,
+                    cache: false
+                }).done(
+                    function(data){
+
+                        var chartDom = document.getElementById('line-chart');
+
+                        var myChart = echarts.init(chartDom);
+                        var option;
+
+                        option = {
+                        title: {
+                            text: 'Number of confirmed cases and deaths',
+                            left: 'center',
+                            top:18,
+                            textStyle:{fontSize:14}
+                        },
+                        color:["#BE9625","#BE2555"],
+                        grid: {
+                            bottom: 80
+                        },
+                        toolbox: {
+                            feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            restore: {},
+                            saveAsImage: {}
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                            type: 'cross',
+                            animation: false,
+                            label: {
+                                backgroundColor: '#505765'
+                            }
+                            }
+                        },
+                        legend: {
+                            data: ['Positive cases', 'Death'],
+                            left: 10
+                        },
+                        dataZoom: [
+                            {
+                            show: true,
+                            realtime: true,
+                            start: 30,
+                            end: 100
+                            },
+                            {
+                            type: 'inside',
+                            realtime: true,
+                            start: 65,
+                            end: 85
+                            }
+                        ],
+                        xAxis: [
+                            {
+                            type: 'category',
+                            boundaryGap: false,
+                            axisLine: { onZero: false },
+                            // prettier-ignore
+                            data: data.Date.map(function (str) {
+                                        return str.replace(' ', '\n');
+                                    })
+                            }
+                        ],
+                        yAxis: [
+                            {
+                            name: 'Positive cases',
+                            type: 'value'
+                            },
+                            {
+                            name: 'Death',
+                            nameLocation: 'start',
+                            alignTicks: true,
+                            type: 'value',
+                            inverse: true
+                            }
+                        ],
+                        series: [
+                            {
+                            name: 'Positive cases',
+                            type: 'line',
+                            areaStyle: {},
+                            lineStyle: {
+                                width: 1
+                            },
+                            emphasis: {
+                                focus: 'series'
+                            },
+                            markArea: {
+                                silent: true,
+                                itemStyle: {
+                                opacity: 0.3
+                                },
+                                data: [
+                                [
+                                    {
+                                    xAxis: '2022/02/01'
+                                    },
+                                    {
+                                    xAxis: '2022/02/01'
+                                    }
+                                ]
+                                ]
+                            },
+                            // prettier-ignore
+                            data: data.Confirmed
+                            },
+                            {
+                            name: 'Death',
+                            type: 'line',
+                            yAxisIndex: 1,
+                            areaStyle: {},
+                            lineStyle: {
+                                width: 1
+                            },
+                            emphasis: {
+                                focus: 'series'
+                            },
+                            markArea: {
+                                silent: true,
+                                itemStyle: {
+                                opacity: 0.3
+                                },
+                                data: [
+                                [
+                                    {
+                                    xAxis: '2009/9/10\n7:00'
+                                    },
+                                    {
+                                    xAxis: '2009/9/20\n7:00'
+                                    }
+                                ]
+                                ]
+                            },
+                            // prettier-ignore
+                            data: data.Death
+                            }
+                        ]
+                        };
+
+                        option && myChart.setOption(option);
+                    }
+                )
+    }
+
+    $(function () {
+
+        get_refreshed_data();
+
+    })
+    
+
+
+</script>
+
+<!-- vaccination -->
+<script>
+    var vaccine_url = "https://static.data.gov.hk/covid-vaccine/summary.json";
+    var chartDom = document.getElementById('vaccine-chart');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    $.get(
+        vaccine_url,
+        function (_rawData) {
+            run(_rawData);
+        }
+    );
+
+    function run(_rawData){
+        
+        var firstDosevalue = Number(_rawData.firstDosePercent.replace("%",""));
+
+        var secondDosePercent = Number(_rawData.secondDosePercent.replace("%",""));
+
+        var thirdDosePercent = (_rawData.thirdDoseTotal/6731103)*100;
+
+        thirdDosePercent = Number(thirdDosePercent.toFixed(2));
+
+        
+
+        const gaugeData = [
+        {
+            value: firstDosevalue,
+            name: 'First Dose',
+            title: {
+            offsetCenter: ['80%', '90%']
+            },
+            detail: {
+            offsetCenter: ['80%', '120%']
+            }
+        },
+        {
+            value: secondDosePercent,
+            name: 'Second',
+            title: {
+            offsetCenter: ['0%', '90%']
+            },
+            detail: {
+            offsetCenter: ['0%', '120%']
+            }
+        },
+
+        {
+            value: thirdDosePercent,
+            name: 'Third',
+            title: {
+            offsetCenter: ['-80%', '90%']
+            },
+            detail: {
+            offsetCenter: ['-80%', '120%']
+            }
+        }
+        ];
+        option = {
+            color:["#63fa58","#facc58","#eb3515"],
+            title: {
+                            text: 'Vaccination Completion Watch',
+                            left: 'center',
+                            textStyle:{fontSize:14}
+                        },
+        series: [
+            {
+            type: 'gauge',
+            anchor: {
+                show: true,
+                showAbove: true,
+                size: 18,
+                itemStyle: {
+                color: '#FAC858'
+                }
+            },
+            pointer: {
+                icon: 'path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z',
+                width: 8,
+                length: '80%',
+                offsetCenter: [0, '8%']
+            },
+            progress: {
+                show: true,
+                overlap: true,
+                roundCap: true
+            },
+            axisLine: {
+                roundCap: true
+            },
+            data: gaugeData,
+            title: {
+                fontSize: 14
+            },
+            detail: {
+                width: 35,
+                height: 14,
+                fontSize: 14,
+                color: '#fff',
+                backgroundColor: 'auto',
+                borderRadius: 3,
+                formatter: '{value}%'
+            }
+            }
+        ]
+        };
+
+        myChart.setOption(option);
+    };
+
+
+
+</script>
+
+
+<!-- regeion bart pie chart -->
+<script>
+
+
+
+var building_url = "./../static/data/building_data/latest_eng_buiding.json"
+
+$.get(
+    building_url,
+        function (building_raw_data) {
+            run_bar_pie_char(building_raw_data);
+        }
+    );
+
+ function run_bar_pie_char(building_data){
+    var barchartDom = document.getElementById('region-bar-chart');
+    var myBarChart = echarts.init(barchartDom);
+    var option;
+
+    const total_num = building_data.total;
+
+    var pie_dict = {};
+
+    building_data.District.forEach((district,index) => {
+        pie_dict[district] = building_data.Count[index];
+    } );
+
+    const waterMarkText = '';
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.height = 100;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.globalAlpha = 0.08;
+    ctx.font = '20px Microsoft Yahei';
+    ctx.translate(50, 50);
+    ctx.rotate(-Math.PI / 4);
+    ctx.fillText(waterMarkText, 0, 0);
+    option = {
+    backgroundColor: {
+        type: 'pattern',
+        image: canvas,
+        repeat: 'repeat'
+    },
+    tooltip: {},
+    title: [
+        {
+        text: 'Districts visited by positive cases in the past 14 days',
+        subtext: 'Total ' + total_num,
+        left: '50%',
+        textAlign: 'center',
+        textStyle:{fontSize:14}
+        },
+        {
+        text: '',
+        subtext:'',
+        left: '75%',
+        textAlign: 'center'
+        },
+    ],
+    grid: [
+        {
+        top: 50,
+        width: '50%',
+        bottom: 0,
+        left: 0,
+        containLabel: true
+        },
+
+    ],
+    xAxis: [
+        {
+        type: 'value',
+        max: building_data.Count[-1],
+        splitLine: {
+            show: false
+        }
+        }
+    ],
+    yAxis: [
+        {
+        type: 'category',
+        data: building_data.District,
+        axisLabel: {
+            interval: 0,
+            rotate: 30
+        },
+        splitLine: {
+            show: true
+        }
+        }
+    ],
+    series: [
+        {
+        type: 'bar',
+        stack: 'chart',
+        z: 3,
+        label: {
+            position: 'right',
+            show: true
+        },
+        data: building_data.Count,
+        },
+        { 
+            itemStyle: {
+            borderRadius: 3
+        },
+        roseType: 'radius',
+        type: 'pie',
+        radius: [0, 120],
+        center: ['70%', '50%'],
+        data: Object.keys(pie_dict).map(function (key) {
+            return {
+            name: key,
+            value: pie_dict[key]
+            };
+        })
+        },
+    ]
+};
+
+myBarChart.setOption(option);
+ }
+
+// $(function () {
+
+//     run_bar_pie_char(building_data);
+
+// })
+
+
+</script>
+
+<!-- picture bar chart -->
+<script type="text/javascript">
+
+    var picture_bar_data_url = "./../static/data/million_death_rate_data/million_death_rate_eng.json"
+  
+    $.get(
+      picture_bar_data_url,
+          function (picture_bar_data) {
+            show_picture_bar(picture_bar_data);
+          }
+      );
+  
+    function show_picture_bar(picture_bar_data){
+  
+        var dom = document.getElementById("million-death-rate");
+        var myChart = echarts.init(dom);
+  
+        var option;
+  
+        const spirit =
+          'image://./../static/images/person_icon.webp';
+  
+        var maxData = 10;
+        option = {
+          title: {
+                              text: picture_bar_data.title,
+                              left: 'left'
+                          },
+          tooltip: {},
+          xAxis: {
+            max: maxData,
+            splitLine: { show: false },
+            offset: 1,
+            axisLine: {
+              lineStyle: {
+                color: '#999'
+              }
+            },
+            axisLabel: {
+              margin: 1
+            }
+          },
+          yAxis: {
+            data: picture_bar_data.Country,
+            inverse: true,
+            axisTick: { show: false },
+            axisLine: { show: false },
+            axisLabel: {
+              margin: 1,
+              color: 'black',
+              fontSize: 12
+            }
+          },
+          grid: {
+            top: 'center',
+            height: 200,
+            left: 70,
+            right: 100
+          },
+          series: [
+            {
+              // current data
+              type: 'pictorialBar',
+              symbol: spirit,
+              symbolRepeat: 'fixed',
+              symbolMargin: '5%',
+              symbolClip: true,
+              symbolSize: 30,
+              symbolBoundingData: maxData,
+              data: picture_bar_data.Death,
+              markLine: {
+                symbol: 'none',
+                label: {
+                  formatter: 'max: {c}',
+                  position: 'start'
+                },
+                lineStyle: {
+                  color: 'green',
+                  type: 'dotted',
+                  opacity: 0.2,
+                  width: 1
+                },
+                data: [
+                  {
+                    type: 'max'
+                  }
+                ]
+              },
+              z: 10
+            },
+            {
+              // full data
+              type: 'pictorialBar',
+              itemStyle: {
+                opacity: 0.15
+              },
+              label: {
+                show: true,
+                position: 'right',
+                offset: [10, 0],
+                color: 'brown',
+                fontSize: 20
+              },
+              animationDuration: 0,
+              symbolRepeat: 'fixed',
+              symbolMargin: '5%',
+              symbol: spirit,
+              symbolSize: 30,
+              symbolBoundingData: maxData,
+              data:picture_bar_data.Death,
+              z: 5
+            }
+          ]
+        };
+  
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+  
+      
+    }
+  
+</script>
+
+<!-- ederly death rate -->
+<script type="text/javascript">
+
+  var ederly_death_rate_data_url = "./../static/data/ederly_death_data/ederly_death_data_eng.json"
+  
+  $.get(
+    ederly_death_rate_data_url,
+        function (ederly_death_rate_data) {
+            show_ederly_death_rate(ederly_death_rate_data);
+        }
+    );
+
+    function show_ederly_death_rate(ederly_death_rate_data){
+        var ederly_death_dom = document.getElementById("ederly-death-analysis");
+        var ederly_death_chart = echarts.init(ederly_death_dom);
+        var app = {};
+
+        var option;
+
+        option = {
+
+        yAxis: {
+            type: 'category',
+            data: ederly_death_rate_data.category,
+            axisLabel: {
+              margin: 0,
+              color: 'black',
+              fontSize: 11,
+              rotate:90,
+
+            }
+        },
+        xAxis: {
+            type: 'value'
+        },
+
+        title:{
+            text:ederly_death_rate_data.title,
+            left:"left",
+
+        },
+        series: [
+            {
+            data: ederly_death_rate_data.death_rate,
+            type: 'bar',
+            color: "#73c0de",
+            opacity:0.5
+            }
+        ],
+        label: {
+                    show: true,
+                    formatter: function (params) {
+                    return (params.value * 100).toFixed(2) + ' %';
+                    },
+                    position: 'right',
+                    offset: [10, 0],
+                    color: 'black',
+                    fontSize: 15
+                    },
+        };
+
+        if (option && typeof option === 'object') {
+            ederly_death_chart.setOption(option);
+        }
+    }
+
+</script>
+
+<!--percentage of death -->
+<script type="text/javascript">
+
+    age_death_percentage_data_url = "./../static/data/age_death_percentage_data/age_death_percentage_data_eng.json"
+    
+    $.get(
+        age_death_percentage_data_url,
+        function (age_death_percentage_data) {
+            show_age_death_percentage(age_death_percentage_data);
+        }
+    );
+
+    function show_age_death_percentage(age_death_percentage_data) {
+
+        var death_percentage_dom = document.getElementById("death-percentage-analysis");
+        var death_percentage_dom_chart = echarts.init(death_percentage_dom);
+        var app = {};
+        var option;
+        
+        
+        
+        option = {
+        title: {text:age_death_percentage_data.title},
+        color :["#ee6666","#fac858","#91cc75"],
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'right',
+        },
+        series: [
+            {
+            name: age_death_percentage_data.title,
+            type: 'pie',
+            radius: ['5%', '50%'],
+            avoidLabelOverlap: true,
+            itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
+            },
+            label: {
+                show: true,
+                formatter: function (params) {
+                                return params.name + "\n" + (params.value * 100).toFixed(2) + ' %';
+                                }
+            },
+            emphasis: {
+                label: {
+                show: true,
+                fontSize: '14',
+                fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: true
+            },
+            data: age_death_percentage_data.data
+            }
+        ]
+        };
+        
+        if (option && typeof option === 'object') {
+            death_percentage_dom_chart.setOption(option);
+        }
+    };
+
+    
+</script>
+
+
+</html>

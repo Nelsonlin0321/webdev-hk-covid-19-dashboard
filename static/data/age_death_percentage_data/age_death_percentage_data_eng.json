@@ -1,0 +1,8 @@
+{
+    "title":"Distribution of deaths by age group",
+    "data":[
+    { "value": 0.6350, "name": "80 or above" },
+    { "value": 0.1879, "name": "70-79" },
+    { "value": 0.1771, "name": "below 70" }
+  ]
+}
